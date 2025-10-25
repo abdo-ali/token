@@ -27,12 +27,30 @@ actor Token {
         if (balances.get(msg.caller) == null) {
 
             let amountToPay : Nat = 10000;
-            balances.put(msg.caller, amountToPay);
-        
-            return "success";
-            
+            let result = await transfer(msg.caller, amountToPay);
+            return result;
         }else{
             return "Already claimed";
         }
+    };
+
+    public shared(msg) func transfer(to : Principal, amount : Nat) : async Text {
+        let from = msg.caller;
+        Debug.print(debug_show(msg.caller));
+        
+        let fromBalance = await balanceOf(from);
+
+        if (fromBalance > amount) {
+            let newFromBalance : Nat = fromBalance - amount;
+            balances.put(from, newFromBalance);
+
+            let toBalance = await balanceOf(to);
+            let newToBalance : Nat = toBalance + amount;
+            balances.put(to, newToBalance);
+
+            return "success";
+        } else {
+            return "Insufficient Balance";
+        };
     };
 };
