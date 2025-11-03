@@ -1,97 +1,184 @@
-# Check your Balance
+# 💠 ICP Token DApp (DTAN)
 
-1. Find out your principal id:
+A decentralized web application built on the **Internet Computer (ICP)** blockchain using **Motoko** for backend smart contracts and **React** for the frontend interface.  
+This project demonstrates how to integrate **Internet Identity authentication**, create a simple **token canister**, and interact with it from a modern web app.
 
-```
-dfx identity get-principal
-```
+---
 
-2. Save it somewhere.
+## Features
 
-e.g. My principal id is:
-imnip-motn2-ct3w5-thnbc-k5wfd-bxy36-niaxz-ybypr-bdrqt-nbxq4-2ae
+- 🔑 **Login with Internet Identity**
+- 💰 **Mint (Faucet)** — Users can claim 10,000 DTAN tokens (only once)
+- 💳 **Check Balance** — Displays token balance for logged-in user
+- 🔄 **Transfer Tokens** — Send DTAN tokens to another ICP principal
+- ♻️ **Stable Data** — Uses `preupgrade` / `postupgrade` to persist balances
 
-3. Format and store it in a command line variable:
+---
 
-```
-OWNER_PUBLIC_KEY="principal \"$( \dfx identity get-principal )\""
-```
+## 🧠 Tech Stack
 
-4. Check that step 3 worked by printing it out:
+| Layer                    | Technology                                                                                      |
+| ------------------------ | ----------------------------------------------------------------------------------------------- |
+| Backend (Smart Contract) | [Motoko](https://internetcomputer.org/docs/current/motoko/main/motoko-introduction)             |
+| Frontend                 | [React.js](https://react.dev/)                                                                  |
+| Authentication           | [Internet Identity](https://identity.ic0.app/)                                                  |
+| Local Development        | [DFX SDK](https://internetcomputer.org/docs/current/developer-docs/quickstart/quickstart-intro) |
 
-```
-echo $OWNER_PUBLIC_KEY
-```
+---
 
-5. Check the owner's balance:
-
-```
-dfx canister call token balanceOf "( $OWNER_PUBLIC_KEY )"
-```
-
-# Charge the Canister
-
-1. Check canister ID:
+## 📂 Project Structure
 
 ```
-dfx canister id token
+project-root/
+├── src/
+│   ├── token/
+│   │   └── main.mo           # Motoko backend canister
+│   ├── frontend/
+│   │   ├── src/
+│   │   │   ├── components/
+│   │   │   │   ├── App.jsx
+│   │   │   │   ├── Header.jsx
+│   │   │   │   ├── Faucet.jsx
+│   │   │   │   ├── Balance.jsx
+│   │   │   │   └── Transfer.jsx
+│   │   │   └── index.jsx     # React entry file + Internet Identity login
+│   │   └── package.json
+├── dfx.json                   # ICP project configuration
+└── README.md
 ```
 
-2. Save canister ID into a command line variable:
+---
 
-```
-CANISTER_PUBLIC_KEY="principal \"$( \dfx canister id token )\""
-```
+## 🧩 Motoko Canister Overview
 
-3. Check canister ID has been successfully saved:
+File: `src/token/main.mo`
 
-```
-echo $CANISTER_PUBLIC_KEY
-```
+### Key Functions
 
-4. Transfer half a billion tokens to the canister Principal ID:
+| Function                               | Description                                   |
+| -------------------------------------- | --------------------------------------------- |
+| `balanceOf(account: Principal)`        | Returns balance of a given principal          |
+| `getSymbol()`                          | Returns token symbol (`DTAN`)                 |
+| `payOut()`                             | Allows a new user to claim 10,000 tokens once |
+| `transfer(to: Principal, amount: Nat)` | Sends tokens between principals               |
+| `preupgrade()` / `postupgrade()`       | Persist balances across canister upgrades     |
 
-```
-dfx canister call token transfer "($CANISTER_PUBLIC_KEY, 500_000_000)"
-```
+---
 
-# Deploy the Project to the Live IC Network
+## 🖥️ Frontend Overview
 
-1. Create and deploy canisters:
+File: `src/frontend/src/index.jsx`
 
-```
-dfx deploy --network ic
-```
+- Uses `@dfinity/auth-client` for authentication.
+- Once logged in, user’s **Principal ID** is passed to the React App.
+- The main UI (App.jsx) displays **Faucet**, **Balance**, and **Transfer** components.
 
-2. Check the live canister ID:
+### Internet Identity Flow
 
-```
-dfx canister --network ic id token
-```
+1. User clicks **Login with Internet Identity**
+2. Redirects to [identity.ic0.app](https://identity.ic0.app)
+3. On success → returns user principal → initializes canister actor
 
-3. Save the live canister ID to a command line variable:
+---
 
-```
-LIVE_CANISTER_KEY="principal \"$( \dfx canister --network ic id token )\""
-```
+## ⚙️ Setup & Run Locally
 
-4. Check that it worked:
+### 1️⃣ Install Dependencies
 
-```
-echo $LIVE_CANISTER_KEY
-```
+Make sure you have the latest **DFX SDK**:
 
-5. Transfer some tokens to the live canister:
-
-```
-dfx canister --network ic call token transfer "($LIVE_CANISTER_KEY, 50_000_000)"
+```bash
+sh -ci "$(curl -fsSL https://smartcontracts.org/install.sh)"
+dfx --version
 ```
 
-6. Get live canister front-end id:
+Then install Node modules for frontend:
 
-```
-dfx canister --network ic id token_assets
+```bash
+
+npm install
 ```
 
-7. Copy the id from step 6 and add .raw.ic0.app to the end to form a URL.
-   e.g. zdv65-7qaaa-aaaai-qibdq-cai.raw.ic0.app
+---
+
+### 2️⃣ Start Local Replica
+
+```bash
+dfx start
+```
+
+---
+
+### 3️⃣ Deploy Canisters Locally in another terminal
+
+```bash
+dfx deploy
+```
+
+---
+
+### 4️⃣ Run the Frontend (React)
+
+```bash
+npm start
+```
+
+> The app will open in your browser and connect to your local replica http://localhost:8080/.  
+> For authentication, you can either use the real Internet Identity or mock login for local dev.
+
+---
+
+## 🌐 Deploying to ICP Mainnet
+
+To deploy to the main Internet Computer network, you’ll need **cycles**.
+
+### Steps:
+
+1. Create or use an identity:
+   ```bash
+   dfx identity new my-identity
+   dfx identity use my-identity
+   ```
+2. Get your principal:
+   ```bash
+   dfx identity get-principal
+   ```
+3. Request cycles from [DFINITY Faucet](https://faucet.dfinity.org/)
+4. Deploy to mainnet:
+   ```bash
+   dfx deploy --network ic
+   ```
+
+---
+
+## 🪙 Token Details
+
+| Property            | Value                                                             |
+| ------------------- | ----------------------------------------------------------------- |
+| **Token Name**      | DTAN                                                              |
+| **Symbol**          | `DTAN`                                                            |
+| **Total Supply**    | 1,000,000,000                                                     |
+| **Owner Principal** | `imnip-motn2-ct3w5-thnbc-k5wfd-bxy36-niaxz-ybypr-bdrqt-nbxq4-2ae` |
+
+---
+
+## 🖼️ Screenshot
+
+> Add a preview of your app UI here!
+> ![App Screenshot Placeholder](src/dkeeper_assets/assets/token-screenshot.png)
+
+## 📜 License
+
+This project is open-source and available under the [MIT License](LICENSE).
+
+---
+
+## 🤝 Author
+
+**Abdelrahman Ali**  
+💻 Web3 & Blockchain Developer  
+🌐 [LinkedIn](https://www.linkedin.com/in/abdelrahman-ali-04664a185/) | 🐙 [GitHub](https://github.com/abdo-ali)
+
+---
+
+> 💡 _Tip:_ If you’d like to extend this project, you can add NFT minting, token metadata, or integrate with Ledger for real ICP transfers.
