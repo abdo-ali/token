@@ -49,6 +49,13 @@ project-root/
 
 ---
 
+## 🖼️ Screenshot
+
+> Add a preview of your app UI here!
+> ![App Screenshot Placeholder](src/token_assets/assets/token-screenshot.png)
+
+---
+
 ## 🧩 Motoko Canister Overview
 
 File: `src/token/main.mo`
@@ -161,11 +168,6 @@ To deploy to the main Internet Computer network, you’ll need **cycles**.
 | **Owner Principal** | `imnip-motn2-ct3w5-thnbc-k5wfd-bxy36-niaxz-ybypr-bdrqt-nbxq4-2ae` |
 
 ---
-
-## 🖼️ Screenshot
-
-> Add a preview of your app UI here!
-> ![App Screenshot Placeholder](src/token_assets/assets/token-screenshot.png)
 
 ## 📜 License
 
