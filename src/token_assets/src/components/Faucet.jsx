@@ -11,7 +11,7 @@ function Faucet(props) {
     setIsDisabled(true);
     console.log("Faucet Button Clicked");
     /*
-    ##############uncomment to use inernet identity##############
+    ##############  uncomment to use inernet identity  ##############
     const authClient = await AuthClient.create();
     const identity = authClient.getIdentity();
     const authenticatedCanister = createActor(canisterId, {
@@ -22,7 +22,7 @@ function Faucet(props) {
     let result = await authenticatedCanister.payOut();
     */
 
-    //##############comment line after to use inernet identity##############
+    //##############  comment line after to use inernet identity  ##############
     let result = await token.payOut();
 
     setButtonText(result);

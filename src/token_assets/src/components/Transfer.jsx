@@ -20,7 +20,7 @@ function Transfer() {
       "Transfer Button Clicked: " + recipientid + " Amount: " + amountNum
     );
     /*
-    ##############uncomment to use inernet identity##############
+    ##############  uncomment to use inernet identity  ##############
     const authClient = await AuthClient.create();
     const identity = authClient.getIdentity();
     const authenticatedCanister = createActor(canisterId, {
@@ -30,7 +30,7 @@ function Transfer() {
     });
     let result = await authenticatedCanister.transfer(principalId, amountNum);
     */
-    //##############comment line after to use inernet identity##############
+    //##############  comment line after to use inernet identity  ##############
     let result = await token.transfer(principalId, amountNum);
 
     setFeedBack(result);
