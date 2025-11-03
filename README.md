@@ -165,7 +165,7 @@ To deploy to the main Internet Computer network, you’ll need **cycles**.
 ## 🖼️ Screenshot
 
 > Add a preview of your app UI here!
-> ![App Screenshot Placeholder](src/dkeeper_assets/assets/token-screenshot.png)
+> ![App Screenshot Placeholder](src/token_assets/assets/token-screenshot.png)
 
 ## 📜 License
 
