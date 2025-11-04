@@ -184,3 +184,4 @@ This project is open-source and available under the [MIT License](LICENSE).
 ---
 
 > 💡 _Tip:_ If you’d like to extend this project, you can add NFT minting, token metadata, or integrate with Ledger for real ICP transfers.
+> And I will make a project to do this if you want to connect two projects you can do it.
