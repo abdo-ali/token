@@ -167,10 +167,10 @@ button#btn-payout {
   background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
 }
 
-button:first-letter,
+/* button:first-letter,
 .button:first-letter {
   color: yellow;
-}
+} */
 
 button#btn-transfer {
   margin-top: 20px;

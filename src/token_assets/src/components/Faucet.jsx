@@ -39,7 +39,7 @@ function Faucet(props) {
         Faucet
       </h2>
       <label>
-        Get your free DAngela tokens here! Claim 10,000 DANG coins to{" "}
+        Get your free DTAN tokens here! Claim 10,000 DTAN coins to{" "}
         {props.userPrincipal}.
       </label>
       <p className="trade-buttons">
